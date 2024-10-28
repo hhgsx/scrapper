@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from lxml import etree
 from manga import Manga
 from pprint import pprint
-import inquirer
+import inquirer,certifi
 
 headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0',
@@ -23,7 +23,7 @@ headers = {
      
 url = "https://chapmanganelo.com/manga-ba116346"
 
-manga  = "Burn the Witch"
+manga  = "Jujutsu Kaisen"
 
 def search_manga(manga_name):
 
@@ -33,7 +33,7 @@ def search_manga(manga_name):
 
     manga_url = base_url + manga_name
 
-    response = requests.get(manga_url)
+    response = requests.get(manga_url,verify=certifi.where())
     soup = BeautifulSoup(response.content, "html.parser")
 
     manga_item = soup.find_all("div",class_="search-story-item")
@@ -57,7 +57,7 @@ def search_manga(manga_name):
         display = f"{
             {manga_name.text},
             {manga_views[1].text},
-            {manga_author.text}
+            {manga_author}
         }"
 
         manga_choices[display] =manga_url
